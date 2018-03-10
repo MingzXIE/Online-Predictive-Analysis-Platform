@@ -1,0 +1,14 @@
+{% extends 'base_layout.html' %}
+
+{% block content%}
+    <h1>Project List</h1>
+    <div class="projects">
+    {% for project in projects %}
+        <div class="project">
+            <h2><a href="{% url 'projects:detail' project.id %}">{{ project.title }}</a></h2>
+            <p class="type">Type: {{ project.type }} problem</p>
+            <p class="author">added by {{ project.creator }}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

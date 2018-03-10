@@ -1,0 +1,16 @@
+{% extends 'base_layout.html' %}
+
+{% block content%}
+<div class="project-result">
+  <div class="project">
+      <h2>{{ project.title }}</h2>
+      <h2>{{ project.algorithm_selected }}</h2>
+      <h2>{{ project.training_result }}</h2>
+      <h3><a href = "{% url 'projects:comment' project.id %}">Add Comment</a></h3>
+
+  </div>
+</div>
+
+
+
+{% endblock %}
