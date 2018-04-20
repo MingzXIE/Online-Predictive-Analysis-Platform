@@ -24,9 +24,8 @@ SECRET_KEY = 'd!-naujg$o^1$-g6z*7p4t!iw3(-88cy_m^v=7pdws(g)xi(j8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1','[:: 1]']
 
 # Application definition
 
@@ -121,6 +120,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/media/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+)
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn") #Content Delivery Network
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

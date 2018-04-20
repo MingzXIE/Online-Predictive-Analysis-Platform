@@ -6,8 +6,8 @@
     {% for project in projects %}
         <div class="project">
             <h2><a href="{% url 'projects:detail' project.id %}">{{ project.title }}</a></h2>
-            <p class="type">Type: {{ project.type }} problem</p>
-            <p class="author">added by {{ project.creator }}</p>
+            <p class="type">Type: {{ project.predict_type }} problem</p>
+            <pa class="creator">added by {{ project.creator }}</p>
         </div>
     {% endfor %}
     </div>

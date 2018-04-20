@@ -2,9 +2,18 @@
 
 {% block content%}
 <div class="project-initial">
-    <h2>Which kind of algorithm you want to implement</h2>
-    <h3><a href="{% url 'projects:classification_create' %}">Classification</a></h3>
-    <h3><a href="{% url 'projects:regression_create' %}">Regression</a></h3>
+    <h2>Which kind of algorithm you want to implement?</h2>
+    <ul>
+      <li><a href="{% url 'projects:classification_create' %}">Classification</a></li>
+      <li><a href="{% url 'projects:regression_create' %}">Regression</a></li>
+<div class="hint">
+      <h3><font color="#FF6347">Hint:</font></h3>
+      <pre>
+      In classification problems we are trying to predict a discrete number of values.
+      In regression problems we are trying to predict continuous valued output.
+</pre>
+</div>
+  </ul>
 </div>
 
 {% endblock %}

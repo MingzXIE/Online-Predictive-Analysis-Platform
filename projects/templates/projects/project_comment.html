@@ -3,12 +3,14 @@
 {% block content %}
     <div class="project-comment">
         <h2>Comment...</h2>
-        <h3>{{ project.title }}</h3>
-        <textarea name="comment", form="commentform">Add Comment...</textarea>
+
+        <textarea name="comment", form="commentform" >Add Comment...</textarea>
+
+        <div class="comment-form">
         <form action="{% url 'projects:comment' project.id %}" method="post" enctype="multipart/form-data" id="commentform">
             {% csrf_token %}
             <input type="submit" value="submit">
         </form>
-
+      </div>
     </div>
 {% endblock %}

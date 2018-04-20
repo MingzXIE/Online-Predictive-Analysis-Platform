@@ -4,8 +4,17 @@
 <div class="project-training">
   <div class="project">
     <h2>{{ project.title }}</h2>
-    <h2>The error rate is: {{ project.error_rate }}</h2>
-  </div>
+
+    <h3>The result of traning: </h3>
+    <pre>{{ project.accurate_list }}</pre>
+
+      <h2>The most suitable algorithm for your project is: {{ project.algorithm_selected }}</h2>
+      <h2>The mean squared error rate is: {{ project.mean_squared_error }}</h2>
+
+        <div class="continue">
+          <h3><a href="{% url 'projects:regression_predict' project.id %}" class="highlight">Continue </a></h3>
+        </div>
+</div>
 </div>
 
 

@@ -18,6 +18,10 @@ from django.urls import path, include
 from projects import views as project_views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls import handler500
+
+handler500 = project_views.page_error
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +30,9 @@ urlpatterns = [
     path('', project_views.project_list, name='home'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# if settings.DEBUG is False:
+#     urlpatterns += patterns('', url(r'^static/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': settings.STATIC_ROOT, }), )

@@ -1,15 +1,21 @@
 {% extends 'base_layout.html' %}
 
 {% block content%}
+
 <div class="project-training">
   <div class="project">
     <h2>{{ project.title }}</h2>
-    <h2>{{ project.error_rate }}</h2>
-    <h2>{{ project.algorithm_selected }}</h2>
-  </div>
-  <div class="continue">
-    <h3><a href="{% url 'projects:classification_predict' project.id %}">Continue </a></h3>
-  </div>
+
+    <h3>The result of traning: </h3>
+    <pre>{{ project.accurate_list }}</pre>
+
+      <h2>The most suitable algorithm for your project is:  {{ project.algorithm_selected }}</h2>
+      <h2>The accuracy rate is:  {{ project.accurate_rate }}</h2>
+
+        <div class="continue">
+          <h3><a href="{% url 'projects:classification_predict' project.id %}" class="highlight">Continue </a></h3>
+        </div>
+</div>
 </div>
 
 

@@ -5,7 +5,7 @@ from . import models
 class CreateProject(forms.ModelForm):
     class Meta:
         model = models.Project
-        fields = ['title', 'description', 'labeled_data','attribute_num']
+        fields = ['title', 'description', 'labeled_data']
 
 
 class ClassificationPredict(forms.ModelForm):

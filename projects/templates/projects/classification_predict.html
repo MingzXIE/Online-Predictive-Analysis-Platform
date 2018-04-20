@@ -4,10 +4,18 @@
     <div class="project-predict">
         <h2>The Result of Prediction</h2>
         <h3>{{ project.title }}</h3>
+        <div class="hint">
+        <h3><font color="#FF6347">Hint:</font></h3>
+        <p>The elements of the unlabeld data that you going to input, should seperated by comma(",").
+          Please notice that wrong format of data file will lead to failed prediction.
+        </p>
+        </div>
+        <div class="predict-form">
         <form action="{% url 'projects:classification_predict' project.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="text" name="unlabeled_data">
             <input type="submit" value="Predict">
         </form>
+      </div>
     </div>
 {% endblock %}

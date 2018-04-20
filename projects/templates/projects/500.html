@@ -1,0 +1,18 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <div class="project-error">
+    <div class="page-error">
+        <h2>Error!</h2>
+          <h3> Please Check the Format of Your File or Data </h3>
+    </div>
+    <div class="return-to-create">
+    <ul>
+      <li>Please Back to Last Step</li>
+      <li>Or</li>
+      <li><a href="{% url 'projects:initial' %}" class="create-again">create the project again</a></li>
+    </ul>
+
+  </div>
+  </div>
+{% endblock %}

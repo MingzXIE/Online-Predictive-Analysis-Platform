@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf.urls import handler500
 
+handler500 = views.page_error
 app_name = 'projects'
 urlpatterns = [
     path('', views.project_list, name="list"),
@@ -12,7 +14,10 @@ urlpatterns = [
     path('classification_train/<int:project_id>/', views.classification_train, name="classification_train"),
     path('regression_train/<int:project_id>/', views.regression_train, name="regression_train"),
     path('classification_predict/<int:project_id>/', views.classification_predict, name="classification_predict"),
+    path('regression_predict/<int:project_id>/', views.regression_predict, name="regression_predict"),
     path('classification_result/<int:project_id>/', views.classification_result, name="classification_result"),
+    path('regression_result/<int:project_id>/', views.regression_result, name="regression_result"),
     path('project_comment/<int:project_id>/', views.project_addcomment, name="comment"),
     path('<int:project_id>/', views.project_detail, name="detail"),
+
 ]
