@@ -1,11 +1,11 @@
 {% extends 'base_layout.html' %}
 
 {% block content%}
-<div class="project-training">
+<div class="project-processing">
   <div class="project">
       <h2> Uploaded Successfully!</h2>
     <h3>{{ project.title }}</h3>
-      <h3><a href="{% url 'projects:regression_train' project.id %}" >Continue</a></h3>
+      <h4><a href="{% url 'projects:regression_train' project.id %}" class="highlight">Continue</a></h4>
 
   </div>
 </div>

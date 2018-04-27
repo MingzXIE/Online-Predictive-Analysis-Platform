@@ -24,6 +24,7 @@
                         </form>
                     </li>
                     <li><a href="{% url 'projects:initial' %}" class="highlight">New Project</a></li>
+                    <li><a href="{% url 'projects:individual_list' request.user.username %}" class="highlight">Check My Projects</a></li>
                     {% else %}
                     <li><a href="{% url 'accounts:login' %}">Login</a></li>
                     <li><a href="{% url 'accounts:signup' %}">Signup</a></li>

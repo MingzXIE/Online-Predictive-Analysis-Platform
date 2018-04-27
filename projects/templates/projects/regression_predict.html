@@ -6,16 +6,20 @@
         <h3>{{ project.title }}</h3>
         <div class="hint">
         <h3><font color="#FF6347">Hint:</font></h3>
-        <p>The elements of the unlabeld data that you going to input, should seperated by comma(",").
+        <p>Please Input the elements of the unlabeld data that you going to input.
           Please notice that wrong format of data file will lead to failed prediction.
         </p>
         </div>
         <div class="predict-form">
+
         <form action="{% url 'projects:regression_predict' project.id %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="text" name="unlabeled_data">
-            <input type="submit" value="Predict">
+          {% csrf_token %}
+          {% for i in "x"|ljust:project.attribute_num %}
+          <input type="text" name="unlabeled{{ forloop.counter0 }}">
+          {% endfor %}
+          <input type="submit" value="Predict">
         </form>
       </div>
+
     </div>
 {% endblock %}

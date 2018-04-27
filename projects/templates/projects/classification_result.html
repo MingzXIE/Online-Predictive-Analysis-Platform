@@ -7,7 +7,7 @@
       <div class="result-display">
       <h2>The algorithm you used: {{ project.algorithm_selected }}</h2>
       <h2>The unlabeled data you input: {{ project.unlabeled_data }} </h2>
-      <h2>The training result: {{ project.training_result }}</h2>
+      <h2>The training result: {{ project.predict_result }}</h2>
     </div>
       <div class="comment-highlight">
       <h3><a href = "{% url 'projects:comment' project.id %}">Add Comment</a></h3>

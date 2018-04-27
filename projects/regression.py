@@ -10,7 +10,7 @@ from sklearn.neighbors import KNeighborsRegressor
 
 
 # Store the algorithms into a dictionary
-clf_all= {'Linear Regression':LinearRegression(),
+reg_all= {'Linear Regression':LinearRegression(),
           'Support Vector Machine':SVR(),
           'Byesian Ridge':BayesianRidge(),
           'Lasso':Lasso(),
@@ -30,9 +30,9 @@ def read_file(filename, n_fold_input = 5):
     return data_x, data_y, kf
 
 
-def regression_test(clf, kf, n_fold, data_x, data_y):
+def regression_test(reg, kf, n_fold, data_x, data_y):
 
-    # clf represents the types of the classifier
+    # reg represents the type of the regression algorithm
     # adopt k-fold cross validation to test get the accuracy of each algorithms
 
     list_result = []
@@ -40,10 +40,9 @@ def regression_test(clf, kf, n_fold, data_x, data_y):
         train_x,train_y = data_x.iloc[train_index],data_y.iloc[train_index] # training data
         test_x,test_y = data_x.iloc[test_index],data_y.iloc[test_index] # testing data
 
-        # fit the data
-        clf.fit(train_x,train_y)
+        reg.fit(train_x,train_y)
         # make prediction
-        predict_y = clf.predict(test_x)
+        predict_y = reg.predict(test_x)
         # test
         list_result.append(mean_squared_error(test_y,predict_y))
     # return the average error rate of each algorithm
@@ -52,31 +51,31 @@ def regression_test(clf, kf, n_fold, data_x, data_y):
 
 # select the best algorithm/classifier for the user
 def select_best_algorithm(filename, n_fold_input = 5):
-    clf_all_label = []  # The name of the classifier
-    clf_all_result = []  # The result of prediction
-    error_rate_list = ''
+    reg_all_label = []  # The name of the algorithms
+    reg_all_result = []  # The result of tresting
+    squared_error_list = ''
     matrix, labels, kf = read_file(filename, n_fold_input)
-    for k, v in clf_all.items():
+    for k, v in reg_all.items():
         # Training and Testing
-        clf_all_label.append(k)
-        error_rate_tmp = regression_test(v, kf, n_fold_input, matrix, labels)
-        clf_all_result.append(error_rate_tmp)
-        error_rate_list += str(k) + ": " + str(error_rate_tmp) + "\n"
+        reg_all_label.append(k)
+        squared_error_tmp = regression_test(v, kf, n_fold_input, matrix, labels)
+        reg_all_result.append(squared_error_tmp)
+        squared_error_list += str(k) + ": " + str(squared_error_tmp) + "\n"
     # select best algorithm via the accuracy
-    best_choice_index = clf_all_result.index(min(clf_all_result))
-    best_algorithm = clf_all_label[best_choice_index]
-    lowest_error_rate = min(clf_all_result)
-    print(lowest_error_rate)
-    print(error_rate_list)
+    best_choice_index = reg_all_result.index(min(reg_all_result))
+    best_algorithm = reg_all_label[best_choice_index]
+    lowest_squared_error = min(reg_all_result)
+    print(lowest_squared_error)
+    print(squared_error_list)
     print(best_algorithm)
-    return lowest_error_rate, error_rate_list, best_algorithm
+    return lowest_squared_error, squared_error_list, best_algorithm
 
 
 def input_and_predict(best_algorithm, unlabeled_data):
-    clf_best = clf_all[best_algorithm]
+    reg_best = reg_all[best_algorithm]
     data_to_predict = np.array(string_to_list(unlabeled_data)).reshape(1, -1)
-    result = clf_best.predict(data_to_predict)
-    print(clf_best)
+    result = reg_best.predict(data_to_predict)
+    print(reg_best)
     return result[0]
 
 

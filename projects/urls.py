@@ -18,6 +18,8 @@ urlpatterns = [
     path('classification_result/<int:project_id>/', views.classification_result, name="classification_result"),
     path('regression_result/<int:project_id>/', views.regression_result, name="regression_result"),
     path('project_comment/<int:project_id>/', views.project_addcomment, name="comment"),
+    path('individual/<slug:user_name>/', views.individual_list, name="individual_list"),
     path('<int:project_id>/', views.project_detail, name="detail"),
+
 
 ]

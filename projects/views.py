@@ -8,6 +8,7 @@ from django.core.files import File
 from . import classify
 from . import regression
 from django.shortcuts import render_to_response
+from . import read_attributes_num
 import os
 
 
@@ -20,6 +21,12 @@ def project_list(request):
 def project_detail(request, project_id):
     project = Project.objects.get(pk=project_id)
     return render(request, 'projects/project_detail.html',{'project':project})
+
+
+@login_required(login_url="accounts:login")
+def individual_list(request, user_name):
+    projects = Project.objects.filter(creator__username__exact=user_name)
+    return render(request, 'projects/individual_list.html',{'projects':projects})
 
 
 @login_required(login_url="accounts:login")
@@ -79,6 +86,8 @@ def classification_train(request, project_id):
     training_file = project.labeled_data.name
     training_path = os.path.join('media/', training_file)
     accurate_rate, accurate_list, algorithm_selected = classify.select_best_algorithm(training_path)
+    attribute_num = read_attributes_num.read_attributes_num(training_path)
+    project.attribute_num = attribute_num
     project.accurate_list = accurate_list
     project.accurate_rate = accurate_rate
     project.algorithm_selected = algorithm_selected
@@ -91,8 +100,10 @@ def regression_train(request, project_id):
     project = Project.objects.get(pk=project_id)
     training_file = project.labeled_data.name
     training_path = os.path.join('media/',training_file)
-    mean_squared_error, error_rate_list, algorithm_selected = regression.select_best_algorithm(training_path)
-    project.accurate_list = error_rate_list
+    mean_squared_error, squared_error_list, algorithm_selected = regression.select_best_algorithm(training_path)
+    attribute_num = read_attributes_num.read_attributes_num(training_path)
+    project.attribute_num = attribute_num
+    project.accurate_list = squared_error_list
     project.mean_squared_error = mean_squared_error
     project.algorithm_selected = algorithm_selected
     project.save()
@@ -102,23 +113,52 @@ def regression_train(request, project_id):
 @login_required(login_url="accounts:login")
 def classification_predict(request, project_id):
     project = Project.objects.get(pk=project_id)
+    project.unlabeled_data = ""
     if request.method == 'POST':
-        project.unlabeled_data = request.POST['unlabeled_data']
+        data_tmp =""
+        for d in range(project.attribute_num):
+            d_index = "unlabeled"+str(d)
+            print(d)
+            print(d_index)
+            print(request.POST[d_index])
+            data_tmp += request.POST[d_index]
+            data_tmp += ","
+        project.unlabeled_data = data_tmp[:-1]
         project.save()
         return redirect(reverse('projects:classification_result', args=[project_id]))
     else:
-        return render(request, 'projects/classification_predict.html',{'project':project})
-
+        return render(request, 'projects/classification_predict.html', {'project':project}, )
 
 @login_required(login_url="accounts:login")
 def regression_predict(request, project_id):
     project = Project.objects.get(pk=project_id)
+    project.unlabeled_data =""
     if request.method == 'POST':
-        project.unlabeled_data = request.POST['unlabeled_data']
+        data_tmp =""
+        for d in range(project.attribute_num):
+            d_index = "unlabeled" + str(d)
+            print(d)
+            print(d_index)
+            print(request.POST[d_index])
+            data_tmp += request.POST[d_index]
+            data_tmp += ","
+        project.unlabeled_data = data_tmp[:-1]
         project.save()
         return redirect(reverse('projects:regression_result', args=[project_id]))
     else:
         return render(request, 'projects/regression_predict.html', {'project':project})
+
+
+# @login_required(login_url="accounts:login")
+# def regression_predict(request, project_id):
+#     project = Project.objects.get(pk=project_id)
+#     if request.method == 'POST':
+#         project.unlabeled_data = request.POST['unlabeled_data']
+#         project.save()
+#         return redirect(reverse('projects:regression_result', args=[project_id]))
+#     else:
+#         return render(request, 'projects/regression_predict.html', {'project':project})
+
 
 
 @login_required(login_url="accounts:login")
@@ -129,14 +169,14 @@ def classification_result(request, project_id):
     # attribute_str = project.attribute_num
     # attribute_num = int(attribute_str)
     # array_to_predict = project.unlabeled_data
-    project.training_result = classify.input_and_predict(project.algorithm_selected, project.unlabeled_data)
+    project.predict_result = classify.input_and_predict(project.algorithm_selected, project.unlabeled_data)
     project.save()
     return render(request, 'projects/classification_result.html',{'project':project})
 
 @login_required(login_url="accounts:login")
 def regression_result(request, project_id):
     project = Project.objects.get(pk=project_id)
-    project.training_result = regression.input_and_predict(project.algorithm_selected, project.unlabeled_data)
+    project.predict_result = regression.input_and_predict(project.algorithm_selected, project.unlabeled_data)
     project.save()
     return render(request, 'projects/regression_result.html',{'project':project})
 

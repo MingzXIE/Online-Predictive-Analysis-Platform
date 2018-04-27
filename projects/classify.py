@@ -42,7 +42,7 @@ def read_file(filename, n_fold_input = 5):
 
 def classifier_test(clf, kf, n_fold, data_x, data_y):
 
-    # clf represents the types of the classifier
+    # clf represents the type of the classifier
     # adopt k-fold cross validation to test get the accuracy of each algorithms
 
     list_result = []
@@ -71,7 +71,10 @@ def select_best_algorithm(filename, n_fold_input = 5):
         clf_all_label.append(k)
         accuracy_tmp = classifier_test(v, kf, n_fold_input, matrix, labels)
         clf_all_result.append(accuracy_tmp)
-        accuracy_list += str(k) + ": " + str(accuracy_tmp) + "\n"
+        accuracy_process = accuracy_tmp * 100
+        accuracy_str = str(accuracy_process)
+        accuracy_display = accuracy_str[0:7]
+        accuracy_list += str(k) + ": " + accuracy_display + "%" + "\n"
     # select best algorithm via the accuracy
     best_choice_index = clf_all_result.index(max(clf_all_result))
     best_algorithm = clf_all_label[best_choice_index]
